@@ -11,10 +11,9 @@
 		<div class="form-group">
 			<div class="input-grup">
 				<table>
-					<?php 
-					foreach($siswa as $data){
-
-						echo "<tr>
+					<?php
+                    foreach ($siswa as $data) {
+                        echo "<tr>
 						<td>No Pendaftaran</td>
 						<td> &nbsp;: <b> ".$data['no_pendaftaran']."</b></td>
 					</tr>
@@ -38,16 +37,15 @@
 						<td>Jurusan  </td>
 						<td> &nbsp;: ".$data['pilih_jurusan']."</td>
 					</tr>";
-if($view=='result'){
-					echo "<tr>
+                        if ($view=='result') {
+                            echo "<tr>
 						<td>Keterangan  </td>
 						<td> &nbsp;: <b>".$data['keterangan']."</b></td>
 					</tr>";
-				}
-
-				}
+                        }
+                    }
 // print_r($_SESSION);
-				?>
+                ?>
 
 			</table>
 		</div>

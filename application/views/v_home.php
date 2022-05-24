@@ -1,21 +1,20 @@
 			<?php
 
-			if (isset($_GET['page'])) {
-				?>
+            if (isset($_GET['page'])) {
+                ?>
 
 				
 
 			<?php
-		} 
-			?>
+            }
+            ?>
 			
 
 
 <?php
 
 if (isset($_GET['page'])) {
-
-	?>
+    ?>
 
 	<!-- What is -->
 	<div id="down" class="content-section-b" style="border-top: 0">
@@ -28,8 +27,8 @@ if (isset($_GET['page'])) {
 			</div>
 			<?php
 
-			if(isset($_GET['page']) && $_GET['page']=='register'){
-				?>
+            if (isset($_GET['page']) && $_GET['page']=='register') {
+                ?>
 
 				<div class="row">
 
@@ -45,7 +44,8 @@ if (isset($_GET['page'])) {
 
 				</div><!-- /.row -->
 
-				<?php } ?>
+				<?php
+            } ?>
 				<div class="panel panel-default">
 					<div class="panel-body">
 
@@ -54,19 +54,15 @@ if (isset($_GET['page'])) {
 						<?php
 
 
-						include ('views/' . $_GET['page'] . '.php');
-
-						?>
+                        include('views/' . $_GET['page'] . '.php'); ?>
 
 					</div>
 				</div>
 			</div>
 		</div>
 		<?php
-
-	} else {
-
-		?>
+} else {
+                            ?>
 		<div id="down">
 		</div>
 		<!-- What is -->
@@ -199,12 +195,12 @@ if (isset($_GET['page'])) {
 						</div>
 
 <?php
-					}
-					?>
+                        }
+                    ?>
 						
 				<?php
 // echo "<pre>";
-				// print_r($_SESSION);
+                // print_r($_SESSION);
 
 
-				?>
+                ?>

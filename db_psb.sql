@@ -1104,84 +1104,93 @@ INSERT INTO `users` VALUES (1, 'admin', 'admin');
 -- View structure for v_csmp
 -- ----------------------------
 DROP VIEW IF EXISTS `v_csmp`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_csmp` AS select `ds`.`namasekolah` AS `namasekolah`,count(`cs`.`nama_lengkap`) AS `count(cs.nama_lengkap)` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) group by `ds`.`namasekolah` ;
+CREATE  VIEW `v_csmp` AS select `ds`.`namasekolah` AS `namasekolah`,count(`cs`.`nama_lengkap`) AS `count(cs.nama_lengkap)` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) group by `ds`.`namasekolah` ;
 
--- ----------------------------
--- View structure for v_hasil
--- ----------------------------
-DROP VIEW IF EXISTS `v_hasil`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_hasil` AS select `v_rata2`.`no_pendaftaran` AS `no_pendaftaran`,`v_rata2`.`nama_lengkap` AS `nama_lengkap`,`v_rata2`.`jk` AS `jk`,`v_rata2`.`rata2` AS `rata2`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_rata2` join `v_keterangan` on(((`v_rata2`.`no_pendaftaran` = `v_keterangan`.`no_pendaftaran`) and (`v_rata2`.`nisn` = `v_keterangan`.`nisn`) and (`v_rata2`.`nama_lengkap` = `v_keterangan`.`nama_lengkap`) and (`v_rata2`.`rata2` = `v_keterangan`.`rata2`)))) group by `v_rata2`.`no_pendaftaran`,`v_keterangan`.`keterangan` order by `v_keterangan`.`keterangan` ;
-
--- ----------------------------
--- View structure for v_hasil2
--- ----------------------------
-DROP VIEW IF EXISTS `v_hasil2`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_hasil2` AS select `v_siswa`.`no_pendaftaran` AS `no_pendaftaran`,`v_siswa`.`nama_lengkap` AS `nama_lengkap`,`v_siswa`.`jk` AS `jk`,`v_siswa`.`namasekolah` AS `namasekolah`,`v_siswa`.`pilih_jurusan` AS `pilih_jurusan`,`v_hasil_l`.`rata2` AS `rata2`,`v_hasil_l`.`keterangan` AS `keterangan` from (`v_hasil_l` join `v_siswa` on(((`v_hasil_l`.`no_pendaftaran` = `v_siswa`.`no_pendaftaran`) and (`v_hasil_l`.`nama_lengkap` = `v_siswa`.`nama_lengkap`) and (`v_hasil_l`.`jk` = `v_siswa`.`jk`)))) group by `v_siswa`.`no_pendaftaran`,`v_siswa`.`namasekolah` ;
-
--- ----------------------------
--- View structure for v_hasil_l
--- ----------------------------
-DROP VIEW IF EXISTS `v_hasil_l`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_hasil_l` AS select `v_rata2`.`no_pendaftaran` AS `no_pendaftaran`,`v_rata2`.`nama_lengkap` AS `nama_lengkap`,`v_rata2`.`jk` AS `jk`,`v_rata2`.`rata2` AS `rata2`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_rata2` join `v_keterangan` on(((`v_rata2`.`no_pendaftaran` = `v_keterangan`.`no_pendaftaran`) and (`v_rata2`.`nisn` = `v_keterangan`.`nisn`) and (`v_rata2`.`nama_lengkap` = `v_keterangan`.`nama_lengkap`) and (`v_rata2`.`rata2` = `v_keterangan`.`rata2`)))) group by `v_rata2`.`no_pendaftaran`,`v_keterangan`.`keterangan` order by `v_keterangan`.`keterangan` ;
-
--- ----------------------------
--- View structure for v_hasil_smp
--- ----------------------------
-DROP VIEW IF EXISTS `v_hasil_smp`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_hasil_smp` AS select `v_siswa`.`namasekolah` AS `namasekolah`,sum(if(((`v_siswa`.`jk` = 'laki-laki') and (`v_keterangan`.`keterangan` = `v_keterangan`.`keterangan`) and (`v_siswa`.`namasekolah` = `v_siswa`.`namasekolah`)),1,0)) AS `JL`,sum(if(((`v_siswa`.`jk` = 'perempuan') and (`v_keterangan`.`keterangan` = `v_keterangan`.`keterangan`) and (`v_siswa`.`namasekolah` = `v_siswa`.`namasekolah`)),1,0)) AS `JP`,count(`v_siswa`.`jk`) AS `jml`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_keterangan` join `v_siswa` on(((`v_keterangan`.`no_pendaftaran` = `v_siswa`.`no_pendaftaran`) and (`v_keterangan`.`nisn` = `v_siswa`.`nisn`) and (`v_keterangan`.`nama_lengkap` = `v_siswa`.`nama_lengkap`)))) group by `v_siswa`.`namasekolah`,`v_keterangan`.`keterangan` ;
-
--- ----------------------------
--- View structure for v_jk
--- ----------------------------
-DROP VIEW IF EXISTS `v_jk`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jk` AS select sum(if((`cs`.`jk` = 'Laki-laki'),1,NULL)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,NULL)) AS `JP` from `calon_siswa` `cs` ;
-
--- ----------------------------
--- View structure for v_jkjr
--- ----------------------------
-DROP VIEW IF EXISTS `v_jkjr`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jkjr` AS select `cs`.`pilih_jurusan` AS `jurusan`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk`,`v_hasil`.`keterangan` ;
-
--- ----------------------------
--- View structure for v_jkjr_2
--- ----------------------------
-DROP VIEW IF EXISTS `v_jkjr_2`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jkjr_2` AS select `cs`.`pilih_jurusan` AS `jurusan`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk`,(case when ((`cs`.`jk` = `cs`.`jk`) and (`cs`.`pilih_jurusan` = `cs`.`pilih_jurusan`)) then count(`cs`.`jk`) else count(`cs`.`jk`) end) AS `JKK` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk` ;
-
--- ----------------------------
--- View structure for v_jksmp
--- ----------------------------
-DROP VIEW IF EXISTS `v_jksmp`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jksmp` AS select `ds`.`id_smp` AS `id_smp`,`ds`.`namasekolah` AS `namasekolah`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,count(`cs`.`jk`) AS `jml` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) group by `ds`.`namasekolah` order by `ds`.`id_smp` ;
-
--- ----------------------------
--- View structure for v_jksmp2
--- ----------------------------
-DROP VIEW IF EXISTS `v_jksmp2`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jksmp2` AS select `datasmp`.`namasekolah` AS `namasekolah`,(case when (`v_hasil`.`keterangan` = 'lulus') then count(`v_hasil`.`jk`) else count(`v_hasil`.`jk`) end) AS `hasil`,`v_hasil`.`keterangan` AS `keterangan` from (`v_hasil` join (`calon_siswa` join `datasmp` on((`calon_siswa`.`id_smp` = `datasmp`.`id_smp`)))) group by `datasmp`.`namasekolah` ;
-
--- ----------------------------
--- View structure for v_jml_jkjr
--- ----------------------------
-DROP VIEW IF EXISTS `v_jml_jkjr`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_jml_jkjr` AS select `cs`.`pilih_jurusan` AS `jurusan`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk`,`v_hasil`.`keterangan` ;
-
--- ----------------------------
--- View structure for v_keterangan
--- ----------------------------
-DROP VIEW IF EXISTS `v_keterangan`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_keterangan` AS select `rt`.`no_pendaftaran` AS `no_pendaftaran`,`rt`.`nisn` AS `nisn`,`rt`.`nama_lengkap` AS `nama_lengkap`,`rt`.`rata2` AS `rata2`,(case when (`rt`.`rata2` > 80) then 'Lulus' else 'Tidak Lulus' end) AS `keterangan` from `v_rata2` `rt` ;
 
 -- ----------------------------
 -- View structure for v_rata2
 -- ----------------------------
 DROP VIEW IF EXISTS `v_rata2`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_rata2` AS select `cs`.`no_pendaftaran` AS `no_pendaftaran`,`cs`.`nisn` AS `nisn`,`cs`.`nama_lengkap` AS `nama_lengkap`,`cs`.`pilih_jurusan` AS `jurusan`,`cs`.`jk` AS `jk`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_ipa` * 20) / 100) else ((`cs`.`nilai_ipa` * 25) / 100) end) AS `ipa`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_mtk` * 50) / 100) else ((`cs`.`nilai_mtk` * 25) / 100) end) AS `mtk`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_bindo` * 10) / 100) else ((`cs`.`nilai_bindo` * 25) / 100) end) AS `indo`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_bing` * 20) / 100) else ((`cs`.`nilai_bing` * 25) / 100) end) AS `inggris`,(avg((((`cs`.`nilai_bindo` + `cs`.`nilai_bing`) + `cs`.`nilai_ipa`) + `cs`.`nilai_mtk`)) / 4) AS `rata2` from `calon_siswa` `cs` group by `cs`.`no_pendaftaran` ;
+CREATE  VIEW `v_rata2` AS select `cs`.`no_pendaftaran` AS `no_pendaftaran`,`cs`.`nisn` AS `nisn`,`cs`.`nama_lengkap` AS `nama_lengkap`,`cs`.`pilih_jurusan` AS `jurusan`,`cs`.`jk` AS `jk`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_ipa` * 20) / 100) else ((`cs`.`nilai_ipa` * 25) / 100) end) AS `ipa`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_mtk` * 50) / 100) else ((`cs`.`nilai_mtk` * 25) / 100) end) AS `mtk`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_bindo` * 10) / 100) else ((`cs`.`nilai_bindo` * 25) / 100) end) AS `indo`,(case when ((`cs`.`pilih_jurusan` = 'Rekayasa Perangkat Lunak') and (`cs`.`pilih_jurusan` = 'Teknik Komputer dan Jaringan')) then ((`cs`.`nilai_bing` * 20) / 100) else ((`cs`.`nilai_bing` * 25) / 100) end) AS `inggris`,(avg((((`cs`.`nilai_bindo` + `cs`.`nilai_bing`) + `cs`.`nilai_ipa`) + `cs`.`nilai_mtk`)) / 4) AS `rata2` from `calon_siswa` `cs` group by `cs`.`no_pendaftaran` ;
+
+
+
+-- ----------------------------
+-- View structure for v_keterangan
+-- ----------------------------
+DROP VIEW IF EXISTS `v_keterangan`;
+CREATE  VIEW `v_keterangan` AS select `rt`.`no_pendaftaran` AS `no_pendaftaran`,`rt`.`nisn` AS `nisn`,`rt`.`nama_lengkap` AS `nama_lengkap`,`rt`.`rata2` AS `rata2`,(case when (`rt`.`rata2` > 80) then 'Lulus' else 'Tidak Lulus' end) AS `keterangan` from `v_rata2` `rt` ;
+
+-- ----------------------------
+-- View structure for v_hasil
+-- ----------------------------
+DROP VIEW IF EXISTS `v_hasil`;
+CREATE  VIEW `v_hasil` AS select `v_rata2`.`no_pendaftaran` AS `no_pendaftaran`,`v_rata2`.`nama_lengkap` AS `nama_lengkap`,`v_rata2`.`jk` AS `jk`,`v_rata2`.`rata2` AS `rata2`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_rata2` join `v_keterangan` on(((`v_rata2`.`no_pendaftaran` = `v_keterangan`.`no_pendaftaran`) and (`v_rata2`.`nisn` = `v_keterangan`.`nisn`) and (`v_rata2`.`nama_lengkap` = `v_keterangan`.`nama_lengkap`) and (`v_rata2`.`rata2` = `v_keterangan`.`rata2`)))) group by `v_rata2`.`no_pendaftaran`,`v_keterangan`.`keterangan` order by `v_keterangan`.`keterangan` ;
+
+
+-- ----------------------------
+-- View structure for v_hasil_l
+-- ----------------------------
+DROP VIEW IF EXISTS `v_hasil_l`;
+CREATE  VIEW `v_hasil_l` AS select `v_rata2`.`no_pendaftaran` AS `no_pendaftaran`,`v_rata2`.`nama_lengkap` AS `nama_lengkap`,`v_rata2`.`jk` AS `jk`,`v_rata2`.`rata2` AS `rata2`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_rata2` join `v_keterangan` on(((`v_rata2`.`no_pendaftaran` = `v_keterangan`.`no_pendaftaran`) and (`v_rata2`.`nisn` = `v_keterangan`.`nisn`) and (`v_rata2`.`nama_lengkap` = `v_keterangan`.`nama_lengkap`) and (`v_rata2`.`rata2` = `v_keterangan`.`rata2`)))) group by `v_rata2`.`no_pendaftaran`,`v_keterangan`.`keterangan` order by `v_keterangan`.`keterangan` ;
+
+
 
 -- ----------------------------
 -- View structure for v_siswa
 -- ----------------------------
 DROP VIEW IF EXISTS `v_siswa`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `v_siswa` AS select `cs`.`no_pendaftaran` AS `no_pendaftaran`,`cs`.`nisn` AS `nisn`,`cs`.`nis_smp` AS `nis_smp`,`cs`.`nama_lengkap` AS `nama_lengkap`,`cs`.`jk` AS `jk`,`cs`.`tempat_lahir` AS `tempat_lahir`,`cs`.`tanggal_lahir` AS `lahir`,`ds`.`namasekolah` AS `namasekolah`,`cs`.`alamat_pribadi` AS `alamat_pribadi`,`cs`.`no_kontak` AS `no_kontak`,`cs`.`pilih_jurusan` AS `pilih_jurusan`,`cs`.`nilai_bindo` AS `nilai_bindo`,`cs`.`nilai_bing` AS `nilai_bing`,`cs`.`nilai_mtk` AS `nilai_mtk`,`cs`.`nilai_ipa` AS `nilai_ipa` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) ;
+CREATE  VIEW `v_siswa` AS select `cs`.`no_pendaftaran` AS `no_pendaftaran`,`cs`.`nisn` AS `nisn`,`cs`.`nis_smp` AS `nis_smp`,`cs`.`nama_lengkap` AS `nama_lengkap`,`cs`.`jk` AS `jk`,`cs`.`tempat_lahir` AS `tempat_lahir`,`cs`.`tanggal_lahir` AS `lahir`,`ds`.`namasekolah` AS `namasekolah`,`cs`.`alamat_pribadi` AS `alamat_pribadi`,`cs`.`no_kontak` AS `no_kontak`,`cs`.`pilih_jurusan` AS `pilih_jurusan`,`cs`.`nilai_bindo` AS `nilai_bindo`,`cs`.`nilai_bing` AS `nilai_bing`,`cs`.`nilai_mtk` AS `nilai_mtk`,`cs`.`nilai_ipa` AS `nilai_ipa` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) ;
+
+
+-- ----------------------------
+-- View structure for v_hasil2
+-- ----------------------------
+DROP VIEW IF EXISTS `v_hasil2`;
+CREATE  VIEW `v_hasil2` AS select `v_siswa`.`no_pendaftaran` AS `no_pendaftaran`,`v_siswa`.`nama_lengkap` AS `nama_lengkap`,`v_siswa`.`jk` AS `jk`,`v_siswa`.`namasekolah` AS `namasekolah`,`v_siswa`.`pilih_jurusan` AS `pilih_jurusan`,`v_hasil_l`.`rata2` AS `rata2`,`v_hasil_l`.`keterangan` AS `keterangan` from (`v_hasil_l` join `v_siswa` on(((`v_hasil_l`.`no_pendaftaran` = `v_siswa`.`no_pendaftaran`) and (`v_hasil_l`.`nama_lengkap` = `v_siswa`.`nama_lengkap`) and (`v_hasil_l`.`jk` = `v_siswa`.`jk`)))) group by `v_siswa`.`no_pendaftaran`,`v_siswa`.`namasekolah` ;
+
+
+-- ----------------------------
+-- View structure for v_hasil_smp
+-- ----------------------------
+DROP VIEW IF EXISTS `v_hasil_smp`;
+CREATE  VIEW `v_hasil_smp` AS select `v_siswa`.`namasekolah` AS `namasekolah`,sum(if(((`v_siswa`.`jk` = 'laki-laki') and (`v_keterangan`.`keterangan` = `v_keterangan`.`keterangan`) and (`v_siswa`.`namasekolah` = `v_siswa`.`namasekolah`)),1,0)) AS `JL`,sum(if(((`v_siswa`.`jk` = 'perempuan') and (`v_keterangan`.`keterangan` = `v_keterangan`.`keterangan`) and (`v_siswa`.`namasekolah` = `v_siswa`.`namasekolah`)),1,0)) AS `JP`,count(`v_siswa`.`jk`) AS `jml`,`v_keterangan`.`keterangan` AS `keterangan` from (`v_keterangan` join `v_siswa` on(((`v_keterangan`.`no_pendaftaran` = `v_siswa`.`no_pendaftaran`) and (`v_keterangan`.`nisn` = `v_siswa`.`nisn`) and (`v_keterangan`.`nama_lengkap` = `v_siswa`.`nama_lengkap`)))) group by `v_siswa`.`namasekolah`,`v_keterangan`.`keterangan` ;
+
+-- ----------------------------
+-- View structure for v_jk
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jk`;
+CREATE  VIEW `v_jk` AS select sum(if((`cs`.`jk` = 'Laki-laki'),1,NULL)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,NULL)) AS `JP` from `calon_siswa` `cs` ;
+
+-- ----------------------------
+-- View structure for v_jkjr
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jkjr`;
+CREATE  VIEW `v_jkjr` AS select `cs`.`pilih_jurusan` AS `jurusan`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk`,`v_hasil`.`keterangan` ;
+
+-- ----------------------------
+-- View structure for v_jkjr_2
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jkjr_2`;
+CREATE  VIEW `v_jkjr_2` AS select `cs`.`pilih_jurusan` AS `jurusan`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk`,(case when ((`cs`.`jk` = `cs`.`jk`) and (`cs`.`pilih_jurusan` = `cs`.`pilih_jurusan`)) then count(`cs`.`jk`) else count(`cs`.`jk`) end) AS `JKK` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk` ;
+
+-- ----------------------------
+-- View structure for v_jksmp
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jksmp`;
+CREATE  VIEW `v_jksmp` AS select `ds`.`id_smp` AS `id_smp`,`ds`.`namasekolah` AS `namasekolah`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,count(`cs`.`jk`) AS `jml` from (`calon_siswa` `cs` join `datasmp` `ds` on((`cs`.`id_smp` = `ds`.`id_smp`))) group by `ds`.`namasekolah` order by `ds`.`id_smp` ;
+
+-- ----------------------------
+-- View structure for v_jksmp2
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jksmp2`;
+CREATE  VIEW `v_jksmp2` AS select `datasmp`.`namasekolah` AS `namasekolah`,(case when (`v_hasil`.`keterangan` = 'lulus') then count(`v_hasil`.`jk`) else count(`v_hasil`.`jk`) end) AS `hasil`,`v_hasil`.`keterangan` AS `keterangan` from (`v_hasil` join (`calon_siswa` join `datasmp` on((`calon_siswa`.`id_smp` = `datasmp`.`id_smp`)))) group by `datasmp`.`namasekolah` ;
+
+-- ----------------------------
+-- View structure for v_jml_jkjr
+-- ----------------------------
+DROP VIEW IF EXISTS `v_jml_jkjr`;
+CREATE  VIEW `v_jml_jkjr` AS select `cs`.`pilih_jurusan` AS `jurusan`,sum(if((`cs`.`jk` = 'Laki-laki'),1,0)) AS `JL`,sum(if((`cs`.`jk` = 'Perempuan'),1,0)) AS `JP`,`v_hasil`.`keterangan` AS `keterangan`,`v_hasil`.`jk` AS `jk` from (`calon_siswa` `cs` join `v_hasil` on(((`cs`.`no_pendaftaran` = `v_hasil`.`no_pendaftaran`) and (`cs`.`nama_lengkap` = `v_hasil`.`nama_lengkap`) and (`cs`.`jk` = `v_hasil`.`jk`)))) group by `cs`.`pilih_jurusan`,`v_hasil`.`jk`,`v_hasil`.`keterangan` ;
+
 
 SET FOREIGN_KEY_CHECKS = 1;

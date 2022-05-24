@@ -14,12 +14,11 @@
 
 
 				</div>
-<?php 
+<?php
 
-if($view == 'result'){
-
- ?>
-<form action="<?php echo base_url().'?/result/cari#info';?>" method="POST">
+if ($view == 'result') {
+    ?>
+<form action="<?php echo base_url().'result/cari#info'; ?>" method="POST">
 <div class="panel panel-body">
 
 <div class="form-horizontal">
@@ -28,13 +27,13 @@ if($view == 'result'){
 			<div class="input-group">
 				<input type="text" name="nopendaf" id="nopendaf" placeholder="ex. PPDB170001" class="form-control" autocomplete="off"><span class="input-group-addon" style="visibility: hidden;"></span>
 				<input type="submit" name="proses" id="proses" value="Cari" class="btn-group btn-group-justified btn wow tada btn-embossed btn-primary pull-left">
-			</div>	
+			</div>
 		</div>
 	</div>
 </div>
 
 </form>
-<?php 
+<?php
 }
  ?>
 </div>

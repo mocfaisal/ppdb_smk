@@ -16,16 +16,16 @@
      <div class="contact-form">
 	 <div class="profile-pic">
 	 <img src="<?php echo base_url(); ?>assets/images/12.png" alt="User Icon"/ width="150%">
-	 </div>	 
+	 </div>
 	 <div class="signin">
-     <form action="<?php echo base_url().'?/login/ceklogin';?>" method="POST">
+     <form action="<?php echo base_url().'login/ceklogin';?>" method="POST">
 	      <input name="username" type="text" class="user" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" />
 		  <input name="password" type="password" class="pass" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}" />
 		  <!-- <p><a href="#">Forgot Password?</a></p>		   -->
 		  <input name="login" type="submit" value="Login" />
      </form>
-	 </div>	 
-	      
+	 </div>
+
 	 </div>
 </div>
 <div class="footer">

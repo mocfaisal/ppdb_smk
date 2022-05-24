@@ -1,4 +1,4 @@
-<?php 
+<?php
 // session_destroy();
 
 ?><!-- 
@@ -46,7 +46,7 @@
 
 
 <h2 class="sub-header">Table Pendaftar</h2>
-<?php 
+<?php
 
 $this->m_admin->tblsiswa();
 
@@ -64,11 +64,11 @@ $this->m_admin->tblsiswa();
 
 </div>
 
-<?php 
+<?php
 
 // echo base_url();
-// 
+//
 // echo "<pre>";
 // print_r($_SESSION);
-// 
+//
 ?>

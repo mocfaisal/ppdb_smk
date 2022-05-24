@@ -49,8 +49,8 @@
 	<script type="text/javascript">
 
 	$(function(){
-		var url = '?/register/smp';
-		
+		var url = 'register/smp';
+
 $("#auto_sekolah").keyup(function(){
 		$.ajax({
 		type: "POST",
@@ -60,14 +60,14 @@ $("#auto_sekolah").keyup(function(){
 			$("#auto_sekolah").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
 		},
 		success: function(data){
-			
+
 			$("#auto_sekolah").css("background","#FFF");
 		}
 		});
 	});
 
 //To select country name
-		
+
 		$.getJSON(url,function(data){
 			$.each(data,function(i,j){
 				// console.log(j.id_smp);
@@ -79,7 +79,7 @@ $("#auto_sekolah").keyup(function(){
 
 		$('#namasekolah').change(function(){
 
-			var url = '?/register/smp?id='+$('#namasekolah option:selected').val();
+			var url = 'register/smp?id='+$('#namasekolah option:selected').val();
 			$.getJSON(url, function(data){
 
 				$.each(data, function(i,j){
@@ -115,29 +115,25 @@ $("#auto_sekolah").keyup(function(){
 			<h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">SMKN 1 Cianjur</h1>
 			<h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Website</h3>
 			<ul class="list-inline intro-social-buttons">
-<?php 
+<?php
 
-if($view=='result'){
-
-				 ?>
-				<li><a href="<?php echo base_url(); ?>?/result#up" title="Info Kelulusan!" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="network-name">Kelulusan</span></a>
+if ($view=='result') {
+    ?>
+				<li><a href="<?php echo base_url(); ?>result#up" title="Info Kelulusan!" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="network-name">Kelulusan</span></a>
 				</li>
-				<?php 
-				
-				}
-				else
-				{
-?>
+				<?php
+} else {
+                    ?>
 
-<li><a href="<?php echo base_url(); ?>?/result" title="Info Kelulusan!" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="network-name">Kelulusan</span></a>
+<li><a href="<?php echo base_url(); ?>result" title="Info Kelulusan!" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="network-name">Kelulusan</span></a>
 				</li>
 
 <?php
-				}
+                }
 
 
-				 ?>
-				<li><a href="<?php echo base_url(); ?>?/register" title="Register New Students!" class="btn  btn-lg mybutton_standard wow swing wow fadeIn" data-wow-delay="1.2s"><span class="network-name">Register</span></a>
+                 ?>
+				<li><a href="<?php echo base_url(); ?>register" title="Register New Students!" class="btn  btn-lg mybutton_standard wow swing wow fadeIn" data-wow-delay="1.2s"><span class="network-name">Register</span></a>
 
 
 				</li>
@@ -163,9 +159,9 @@ if($view=='result'){
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<?php 
-if($view == 'register'){
-	?>
+			<?php
+if ($view == 'register') {
+    ?>
 	<a class="navbar-brand" href="?">PPDB</a>
 			</div>
 
@@ -182,10 +178,8 @@ if($view == 'register'){
 				</ul>
 			</div>
 <?php
-}
-else{
-
-			 ?>
+} else {
+    ?>
 			<a class="navbar-brand" href="?">Home</a>
 		</div>
 		<div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
@@ -226,13 +220,13 @@ else{
 
 
 			<!-- <li class="menuItem" title="Register New Student"><a href="?page=register">Register</a></li> -->
-			<li class="menuItem" title="Are you admin ?"><a href="<?php echo base_url(); ?>?/login">Login</a></li>
+			<li class="menuItem" title="Are you admin ?"><a href="<?php echo base_url(); ?>login">Login</a></li>
 		</ul>
 	</div>
-	<?php 
+	<?php
 }
 
-	 ?>
+     ?>
 </div>
 
 </nav>

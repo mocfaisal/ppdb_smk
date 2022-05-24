@@ -17,10 +17,10 @@
 
 				</div>
 
-<form method="post" action="<?php echo base_url().'?/register/input#up';?>" enctype="multipart/form-data">
+<form method="post" action="<?php echo base_url().'register/input';?>" enctype="multipart/form-data">
 	<div class="col-md-12">
 	<div class="form-group">
-		
+
 			<label for="nopendaftar">No Pendaftar</label>
 				<input type="text" name="kodependa"  value="<?php echo $_SESSION['autonomor']; ?>">
 		</div>
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 			<hr>
-			
+
 			<label>Asal Sekolah *</label>
 			<div class="form-inline form-group">
 				<select id="namasekolah" name="asal_sekolah" class="form-control">
@@ -115,9 +115,9 @@
 							</Select></Div>
 
 
-							
-				
-				<h5><b>Nilai</b></h5>			
+
+
+				<h5><b>Nilai</b></h5>
 				<hr>
 
 				<div class="form-group">
@@ -157,9 +157,9 @@
 					<label>Gambar Hasil UN</label>
 					<input type="file" name="hasil_un">
 				</div>
-				
-				<hr> 
-				
+
+				<hr>
+
 
 
 <input type="submit" name="daftar" class="btn-group btn-group-justified btn wow tada btn-embossed btn-primary pull-left" value="Daftar">
@@ -168,6 +168,6 @@
 						</div>
 
 					</form>
-					
+
 </div>
 </div></div></div>
